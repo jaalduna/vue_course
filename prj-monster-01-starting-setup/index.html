@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -9,7 +9,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
-    <script src="https://unpkg.com/vue@next" defer></script>
+    <script src="https://unpkg.com/vue@3.4.9/dist/vue.global.js" defer></script>
     <script src="app.js" defer></script>
   </head>
   <body>
@@ -17,27 +17,43 @@
       <h1>Monster Slayer</h1>
     </header>
     <div id="game">
+      <section id="result" class="container" v-if="winner">
+        <h2 v-if="winner === 'Player'">You win!</h2>
+        <h2 v-else-if="winner === 'Monster'">You lost!</h2>
+        <h2 v-else>It's a draw!</h2>
+        <button @click="startNewGame()">Start New Game</button>
+      </section>
+
       <section id="monster" class="container">
         <h2>Monster Health</h2>
         <div class="healthbar">
-          <div class="healthbar__value"></div>
+          <div class="healthbar__value" :style="monsterHealthComputed"></div>
         </div>
       </section>
       <section id="player" class="container">
         <h2>Your Health</h2>
         <div class="healthbar">
-          <div class="healthbar__value"></div>
+          <div class="healthbar__value" :style="playerHealthComputed"></div>
         </div>
       </section>
-      <section id="controls">
-        <button>ATTACK</button>
-        <button>SPECIAL ATTACK</button>
-        <button>HEAL</button>
-        <button>SURRENDER</button>
+      <section id="controls" v-if="!winner">
+        <button @click="attackMonster()">ATTACK</button>
+        <button
+          @click="specialAttackMonster()"
+          :disabled="specialAttackNumber<= 0"
+        >
+          SPECIAL ATTACK
+        </button>
+        <button @click="healPlayer()" :disabled="healthPotNumber<=0">
+          HEAL
+        </button>
+        <button @click="surrender()">SURRENDER</button>
       </section>
       <section id="log" class="container">
         <h2>Battle Log</h2>
-        <ul></ul>
+        <ul>
+          <li v-for="(log, index) in logs" :key="index">{{log}}</li>
+        </ul>
       </section>
     </div>
   </body>

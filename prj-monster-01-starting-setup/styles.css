@@ -3,7 +3,7 @@
 }
 
 html {
-  font-family: 'Jost', sans-serif;
+  font-family: "Jost", sans-serif;
 }
 
 body {
@@ -38,7 +38,6 @@ section {
   width: 100%;
   height: 100%;
 }
-
 .container {
   text-align: center;
   padding: 0.5rem;
@@ -117,3 +116,4 @@ button:disabled {
 .log--heal {
   color: green;
 }
+
